@@ -32,36 +32,63 @@ syntax match lsdynaComment '^\$.*$'
 syntax match lsdynaTitle '^\(\h\|?\).*$' contained
 syntax match lsdynaKeywordName '^\*\a.*$' contains=lsdynaKeywordOption
 syntax match lsdynaKeywordOption '_.*$' contained
+syntax match lsdynaNumber '-\?\d\+\.\?\([eE][+-]\?\d\+\)\?'
+syntax match lsdynaParameter '&\S\+'
+" syntax match lsdynaParameter '^[rRcCiI].*\S\+'
+syntax match lsdynaParameterDef '\(^\)\@!\(\s\)\{-\}\a\S\+' contained
 
-highlight default link lsdynaComment lsdynaComment
-highlight default link lsdynaKeywordName lsdynaKeywordName
-highlight default link lsdynaKeywordOption lsdynaKeywordOption
-highlight default link lsdynaTitle lsdynaTitle
+highlight default link lsdynaComment Comment
+highlight default link lsdynaKeywordName Keyword
+highlight default link lsdynaKeywordOption PreProc
+highlight default link lsdynaTitle Identifier
+highlight default link lsdynaNumber Number
+highlight default link lsdynaParameter Special
+highlight default link lsdynaParameterDef Special
 
 "-------------------------------------------------------------------------------
 "    Standard Ls-Dyna keyword
 "-------------------------------------------------------------------------------
 
-syntax match lsdynaKeyword_02_Col '\%11c.\{10}' contained
-syntax match lsdynaKeyword_04_Col '\%31c.\{10}' contained
-syntax match lsdynaKeyword_06_Col '\%51c.\{10}' contained
-syntax match lsdynaKeyword_08_Col '\%71c.\{10}' contained
+" syntax match lsdynaKeyword_02_Col '\%11c.\{10}' contained
+" syntax match lsdynaKeyword_04_Col '\%31c.\{10}' contained
+" syntax match lsdynaKeyword_06_Col '\%51c.\{10}' contained
+" syntax match lsdynaKeyword_08_Col '\%71c.\{10}' contained
 
-highlight default link lsdynaKeyword_02_Col lsdynaColumn
-highlight default link lsdynaKeyword_04_Col lsdynaColumn
-highlight default link lsdynaKeyword_06_Col lsdynaColumn
-highlight default link lsdynaKeyword_08_Col lsdynaColumn
+" highlight default link lsdynaKeyword_02_Col lsdynaColumn
+" highlight default link lsdynaKeyword_04_Col lsdynaColumn
+" highlight default link lsdynaKeyword_06_Col lsdynaColumn
+" highlight default link lsdynaKeyword_08_Col lsdynaColumn
 
 syntax cluster lsdynaKeywordCluster add=lsdynaComment
 syntax cluster lsdynaKeywordCluster add=lsdynaKeywordName
 syntax cluster lsdynaKeywordCluster add=lsdynaTitle
-syntax cluster lsdynaKeywordCluster add=lsdynaKeyword_02_Col
-syntax cluster lsdynaKeywordCluster add=lsdynaKeyword_04_Col
-syntax cluster lsdynaKeywordCluster add=lsdynaKeyword_06_Col
-syntax cluster lsdynaKeywordCluster add=lsdynaKeyword_08_Col
+syntax cluster lsdynaKeywordCluster add=lsdynaNumber
+syntax cluster lsdynaKeywordCluster add=lsdynaParameter
+" syntax cluster lsdynaKeywordCluster add=lsdynaKeyword_02_Col
+" syntax cluster lsdynaKeywordCluster add=lsdynaKeyword_04_Col
+" syntax cluster lsdynaKeywordCluster add=lsdynaKeyword_06_Col
+" syntax cluster lsdynaKeywordCluster add=lsdynaKeyword_08_Col
 
-syntax region lsdynaKeywordReg start=/^\*\a/ end=/^\*/me=s-1
- \ contains=@lsdynaKeywordCluster
+syntax region lsdynaKeywordReg start=/^\*\(PARAMETER\)\@!\a\+/ end=/^\*/me=s-1
+  \ contains=@lsdynaKeywordCluster
+
+"-------------------------------------------------------------------------------
+"    Parameters
+"-------------------------------------------------------------------------------
+
+syntax match lsdynaPRMR '^[iIrRcC]' contains=lsdynaParameterDef
+
+highlight default link lsdynaPRMR Identifier
+
+syntax cluster lsdynaParameterCluster add=lsdynaParameter
+syntax cluster lsdynaParameterCluster add=lsdynaNumber
+syntax cluster lsdynaParameterCluster add=lsdynaPRMR
+syntax cluster lsdynaParameterCluster add=lsdynaKeywordName
+syntax cluster lsdynaParameterCluster add=lsdynaComment
+syntax cluster lsdynaParameterCluster add=lsdynaParameterDef
+
+syntax region lsdynaParameterReg start=/^\*PARAMETER/ end=/^\*/me=s-1
+	\ contains=@lsdynaParameterCluster
 
 "-------------------------------------------------------------------------------
 "    Nodes

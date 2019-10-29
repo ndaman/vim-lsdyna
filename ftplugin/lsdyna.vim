@@ -104,7 +104,8 @@ endif
 "-------------------------------------------------------------------------------
 
 "load colors
-colorscheme lsdyna
+"keep system colorscheme with lsdyna syntax
+"colorscheme lsdyna
 setlocal syntax=lsdyna
 
 "-------------------------------------------------------------------------------
@@ -162,8 +163,8 @@ augroup END
 "-------------------------------------------------------------------------------
 
 " change 4 -> '$' sign at the line beginning
-inoreabbrev 4 4<C-R>=lsdyna_misc#CommentSign()<CR>
 " comment/uncomment line
+" M is alt
 noremap <silent><buffer> <M-c> :call lsdyna_misc#CommentLine()<CR>j
 " put empty comment line below
 nnoremap <silent><buffer> <LocalLeader>c o$<ESC>0
